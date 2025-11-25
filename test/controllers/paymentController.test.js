@@ -50,8 +50,6 @@ describe('paymentController', function () {
   describe('updatePayment', function () {
     it('should refund an existing payment when refund requested with matching amount', function () {
       const controller = reloadController();
-
-      // First create a payment
       const createReq = createRequest({ method: 'POST', body: { amount: 75 } });
       const createRes = createResponse();
 
@@ -63,8 +61,6 @@ describe('paymentController', function () {
       expect(createRes.statusCode).to.equal(201);
       const paymentId = created.paymentId;
       const amount = created.amount;
-
-      // Now attempt refund
       const updateReq = createRequest({ method: 'POST', body: { paymentId, status: 'refunded', amount } });
       const updateRes = createResponse();
       controller.updatePayment(updateReq, updateRes);
