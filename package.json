@@ -1,0 +1,24 @@
+{
+  "name": "idempotency-key-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nhsbsa-sabha/Idempotency-Key-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nhsbsa-sabha/Idempotency-Key-API/issues"
+  },
+  "homepage": "https://github.com/nhsbsa-sabha/Idempotency-Key-API#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
