@@ -13,5 +13,9 @@ router.patch(
   idempotencyMiddleware({ enabled: false }),
   paymentController.updatePayment
 );
-
+router.post(
+    "/short-ttl",
+    idempotencyMiddleware({ enabled: true, ttl: 5000 }),
+    paymentController.processPayment
+);
 module.exports = router;

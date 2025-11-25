@@ -76,6 +76,16 @@ function idempotencyMiddleware(options = {}) {
     next();
 };
 }
+ function cleanupExpiredEntries() {
+  const now = Date.now();
+  for (const [key, entry] of idempotencyCache.entries()) {
+    if (now >= entry.expiresAt) {
+      console.log(`[Idempotency Cleanup] Removing expired entry for key: ${key}`);
+      idempotencyCache.delete(key);
+    }
+  }
+}
 
+setInterval(cleanupExpiredEntries, 5 * 60 * 1000);
 
 module.exports = idempotencyMiddleware;
