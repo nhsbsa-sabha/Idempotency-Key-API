@@ -1,5 +1,5 @@
 const paymentStore = new Map();
-const { validateProcessPayment } = require('../validation/paymentValidation');
+const { validateProcessPayment , validateUpdatePayment } = require('../validation/paymentValidation');
 const processPayment = (req, res) => {
   const { amount } = req.body || {};
     const validationError = validateProcessPayment(req.body);
@@ -39,8 +39,15 @@ const updatePayment = (req, res) => {
   const { paymentId, status, amount: requestAmount } = req.body || {};
 
   const existingPayment = paymentStore.get(paymentId);
+   const validationError = validateUpdatePayment(req.body, existingPayment);
+  if (validationError) {
+    return res.status(validationError.status).json({
+      success: false,
+      error: validationError.error,
+    });
+  }
 
-  let updateFeilds = [];
+  let updatedFields = [];
 
   const isRefundAttempt = status && status.toLowerCase() === "refunded";
   if (isRefundAttempt) {
