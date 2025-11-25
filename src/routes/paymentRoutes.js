@@ -18,4 +18,9 @@ router.post(
     idempotencyMiddleware({ enabled: true, ttl: 5000 }),
     paymentController.processPayment
 );
+router.post(
+    "/idempotency-disabled",
+    idempotencyMiddleware({ enabled: false }),
+    paymentController.processPayment
+);
 module.exports = router;
