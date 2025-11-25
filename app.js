@@ -8,8 +8,21 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/payment', paymentRoutes);
 
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Route not found'
+  });
+});
+
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`Access the payment endpoint at http://localhost:${PORT}/api/payment`);
+  console.log(`Access the payment endpoint with idempotency key at http://localhost:${PORT}/api/payment`);
+  console.log(`Access the patch endpoint with idempotency key at http://localhost:${PORT}/api/payment`);
 });
 module.exports = app;

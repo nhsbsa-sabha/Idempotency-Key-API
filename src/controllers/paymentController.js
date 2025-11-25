@@ -35,6 +35,58 @@ const processPayment = (req, res) => {
     });
   }, 100);
 };
+const updatePayment = (req, res) => {
+  const { paymentId, status, amount: requestAmount } = req.body || {};
+
+  const existingPayment = paymentStore.get(paymentId);
+
+  let updateFeilds = [];
+
+  const isRefundAttempt = status && status.toLowerCase() === "refunded";
+  if (isRefundAttempt) {
+    const refundAmount =
+      requestAmount !== undefined
+        ? parseFloat(requestAmount)
+        : existingPayment.amount;
+
+    existingPayment.status = "refunded";
+    updatedFields.push("status");
+
+    if (requestAmount !== undefined) {
+      existingPayment.amount = refundAmount;
+      updatedFields.push("amount");
+    }
+  } else if (status && existingPayment.status !== status) {
+    existingPayment.status = status;
+    updatedFields.push("status");
+  }
+
+  if (
+    !isRefundAttempt &&
+    requestAmount !== undefined &&
+    existingPayment.amount !== requestAmount
+  ) {
+    existingPayment.amount = parseFloat(requestAmount);
+    updatedFields.push("amount");
+  }
+
+  const message =
+    updatedFields.length > 0
+      ? `Payment updated successfully. Changes: ${updatedFields.join(" and ")}.`
+      : `Payment ID ${paymentId} exists but no valid updates were provided.`;
+
+  
+  setTimeout(() => {
+     res.status(200).json({
+      success: true,
+      ...existingPayment,
+      message: message,
+      timestamp: new Date().toISOString(),
+    });
+  }, 100);
+};
+
 module.exports = {
-  processPayment
+  processPayment,
+  updatePayment
 };

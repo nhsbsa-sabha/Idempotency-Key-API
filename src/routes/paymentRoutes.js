@@ -8,5 +8,10 @@ router.post(
   idempotencyMiddleware({ enabled: true }),
   paymentController.processPayment
 );
+router.patch(
+  "/",
+  idempotencyMiddleware({ enabled: false }),
+  paymentController.updatePayment
+);
 
 module.exports = router;
