@@ -1,6 +1,15 @@
 const paymentStore = new Map();
+const { validateProcessPayment } = require('../validation/paymentValidation');
 const processPayment = (req, res) => {
   const { amount } = req.body || {};
+    const validationError = validateProcessPayment(req.body);
+    if (validationError) {
+        return res.status(validationError.status).json({
+            success: false,
+            error: validationError.error,
+            timestamp: new Date().toISOString(),
+        });
+    }
   const paymentId = `pay_${Date.now()}_${Math.random()
     .toString(36)
     .substr(2, 9)}`;
