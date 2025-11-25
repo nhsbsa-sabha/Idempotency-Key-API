@@ -23,4 +23,9 @@ router.post(
     idempotencyMiddleware({ enabled: false }),
     paymentController.processPayment
 );
+router.patch(
+    "/idempotency-disabled",
+    idempotencyMiddleware({ enabled: false }),
+    paymentController.updatePayment
+);
 module.exports = router;

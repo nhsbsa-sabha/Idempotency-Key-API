@@ -22,9 +22,10 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`Access the payment endpoint with idempotency key at http://localhost:${PORT}/api/payment`);
+  console.log(`Access the post payment endpoint with idempotency key at http://localhost:${PORT}/api/payment`);
   console.log(`Access the patch endpoint with idempotency key at http://localhost:${PORT}/api/payment`);
   console.log(`Access the short TTL endpoint with idempotency key at http://localhost:${PORT}/api/payment/short-ttl`);
-  console.log(`Access the disabled endpoint without idempotency key at http://localhost:${PORT}/api/payment/idempotency-disabled`);
+  console.log(`Access the post endpoint without idempotency key at http://localhost:${PORT}/api/payment/idempotency-disabled`);
+  console.log(`Access the patch endpoint without idempotency key at http://localhost:${PORT}/api/payment/idempotency-disabled`);
 });
 module.exports = app;
